@@ -1,30 +1,36 @@
-import java.util.Scanner;
-
 public class Board {
 
+    int turn = 0;
     final static int LENGTH = 3;
     static int[][] board;
-    Player p1;
-    Player p2;
 
-    public void play(){
-        initBoard();
-        initPlayers();
-        p1.start();
-        p2.start();
-        /*if(p1.getState() == Thread.State.WAITING){
-            p2.start();
-        } else {
+    public synchronized void waitTurn(int playNum){
+        if(playNum % 2 == turn % 2){
             try {
-                p1.wait();
+                wait();
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("No le da la gana esperar");
             }
-            p2.start();
-        }*/
+        }
     }
 
-    public static boolean winCheck() {
+    public synchronized void changeTurn()
+    {
+        turn++;
+        notifyAll();
+    }
+
+    public void init(){
+        board = new int[LENGTH][LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
+            for (int j = 0; j < LENGTH; j++) {
+                board[i][j] = 0;
+            }
+        }
+    }
+
+    //TODO
+    /*public boolean winCheck() {
         //Cols
         boolean end;
         int num;
@@ -62,41 +68,9 @@ public class Board {
             return true;
         }
         return board[2][0] == board[1][1] && board[1][1] == board[0][2];
-    }
+    }*/
 
-    public static boolean isFull() {
-        for (int i = 0; i < LENGTH; i++) {
-            for (int j = 0; j < LENGTH; j++) {
-                if(board[i][j] == 0)
-                    return false;
-            }
-        }
-        return true;
-    }
-
-    private void initPlayers() {
-
-        p1 = new Player(getName(1), 1, board);
-        p2 = new Player(getName(2), 2 , board);
-
-    }
-
-    private void initBoard(){
-        board = new int[LENGTH][LENGTH];
-        for (int i = 0; i < LENGTH; i++) {
-            for (int j = 0; j < LENGTH; j++) {
-                board[i][j] = 0;
-            }
-        }
-    }
-
-    private String getName(int num){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Introduzca el nombre del jugador: " + num);
-        return sc.nextLine();
-    }
-
-    public static void print(){
+    public void print(){
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < LENGTH; i++) {
 
@@ -105,6 +79,38 @@ public class Board {
             }
             str.append("\n").append("---------------").append("\n");
         }
-        System.out.println(str.toString());
+        System.out.println(str);
+    }
+
+    public int move(){
+        return (int) (Math.random() * countBlac());
+    }
+
+    private int countBlac() {
+        int count = 0;
+        for (int i = 0; i < Board.LENGTH; i++) {
+            for (int j = 0; j < Board.LENGTH; j++) {
+                if(board[i][j] == 0){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public void write(int playNum, int num){
+        int count = 0;
+        for (int i = 0; i < Board.LENGTH; i++) {
+            for (int j = 0; j < Board.LENGTH; j++) {
+                if(board[i][j] == 0){
+                    if(count == num) {
+                        board[i][j] = playNum;
+                        return;
+                    } else {
+                        count++;
+                    }
+                }
+            }
+        }
     }
 }
