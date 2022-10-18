@@ -1,19 +1,19 @@
-public class Player extends Thread{
+public class Player extends Thread {
 
     Board board;
     int playNum;
 
-    public Player(String name, int playNum, Board board){
+    public Player(String name, int playNum, Board board) {
         super(name);
         this.board = board;
         this.playNum = playNum;
     }
 
     @Override
-    public void run(){
+    public void run() {
         while (board.turn < 8) {
             board.waitTurn(playNum);
-            if(board.winCheck()) {
+            if (board.winCheck()) {
                 return;
             }
             int move = board.move();
