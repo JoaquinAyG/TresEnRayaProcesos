@@ -1,3 +1,8 @@
+/*
+Author: Joaquin Ayllon Garcia
+GitHub: JoaquinAyG
+This class acts as the main controller for the Player class
+ */
 public class Board {
 
     int turn = 0;
@@ -93,7 +98,11 @@ public class Board {
     }
 
     public int move() {
-        return (int) (Math.random() * countBlac());
+        int blanc = countBlac();
+        if(blanc == 9){
+            return 4;
+        }
+        return (int) (Math.random() * blanc);
     }
 
     private int countBlac() {

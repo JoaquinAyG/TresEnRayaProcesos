@@ -1,3 +1,7 @@
+/*
+Author: Joaquin Ayllon Garcia
+GitHub: JoaquinAyG
+ */
 public class Player extends Thread {
 
     Board board;

@@ -1,3 +1,8 @@
+/*
+Author: Joaquin Ayllon Garcia
+GitHub: JoaquinAyG
+ */
+
 public class Main {
     public static void main(String[] args) {
         Board board = new Board();
