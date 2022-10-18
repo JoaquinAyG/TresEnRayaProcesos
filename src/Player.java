@@ -21,7 +21,7 @@ public class Player extends Thread {
             board.write(playNum, move);
             board.print();
             try {
-                sleep(10);
+                sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
