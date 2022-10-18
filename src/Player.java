@@ -13,6 +13,9 @@ public class Player extends Thread{
     public void run(){
         while (board.turn < 8) {
             board.waitTurn(playNum);
+            if(board.winCheck()) {
+                return;
+            }
             int move = board.move();
             board.write(playNum, move);
             board.print();
@@ -22,6 +25,8 @@ public class Player extends Thread{
                 e.printStackTrace();
             }
             board.changeTurn();
+
         }
+        board.printWinner();
     }
 }

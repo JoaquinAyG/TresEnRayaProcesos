@@ -29,34 +29,42 @@ public class Board {
         }
     }
 
-    //TODO
-    /*public boolean winCheck() {
+    public boolean winCheck() {
         //Cols
         boolean end;
         int num;
         for (int i = 0; i < LENGTH; i++) {
             end = true;
             num = board[i][0];
-            for (int j = 0; j < LENGTH; j++) {
-                if(board [i][j] != num){
-                    end = false;
-                    break;
+            if(num != 0) {
+                for (int j = 0; j < LENGTH; j++) {
+                    if (board[i][j] != num) {
+                        end = false;
+                        break;
+                    }
                 }
+            } else {
+                end = false;
             }
             if(end){
                 return true;
             }
+
         }
 
         //Rows
         for (int i = 0; i < LENGTH; i++) {
             end = true;
             num = board[0][i];
-            for (int j = 0; j < LENGTH; j++) {
-                if(board [j][i] != num){
-                    end = false;
-                    break;
+            if(num != 0){
+                for (int j = 0; j < LENGTH; j++) {
+                    if (board[j][i] != num) {
+                        end = false;
+                        break;
+                    }
                 }
+            } else {
+                end = false;
             }
             if(end){
                 return true;
@@ -64,11 +72,14 @@ public class Board {
         }
 
         //Diagonal
-        if(board[0][0] == board[1][1] && board[1][1] == board[2][2]){
-            return true;
+        if(board[1][1] != 0) {
+            if (board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+                return true;
+            }
+            return board[2][0] == board[1][1] && board[1][1] == board[0][2];
         }
-        return board[2][0] == board[1][1] && board[1][1] == board[0][2];
-    }*/
+        return false;
+    }
 
     public void print(){
         StringBuilder str = new StringBuilder();
@@ -112,5 +123,17 @@ public class Board {
                 }
             }
         }
+    }
+
+    public void printWinner() {
+
+        if(turn == 8 && !winCheck()){
+            System.out.println("Thers a draw!");
+            return;
+        }
+
+        String winner = (turn % 2 == 1)? "P1 won" : "P2 won";
+
+        System.out.println(winner);
     }
 }
