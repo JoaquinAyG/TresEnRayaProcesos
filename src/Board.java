@@ -135,7 +135,7 @@ public class Board {
 
     public void printWinner() {
 
-        if (turn == 8 && !winCheck()) {
+        if (turn < 9 && !winCheck()) {
             System.out.println("Thers a draw!");
             return;
         }
@@ -143,5 +143,9 @@ public class Board {
         String winner = (turn % 2 == 1) ? "P1 won" : "P2 won";
 
         System.out.println(winner);
+    }
+
+    public synchronized void endGame() {
+        notifyAll();
     }
 }

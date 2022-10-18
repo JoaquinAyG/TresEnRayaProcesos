@@ -15,16 +15,17 @@ public class Player extends Thread {
 
     @Override
     public void run() {
-        while (board.turn < 8) {
+        while (board.turn < 8 && !board.winCheck()) {
             board.waitTurn(playNum);
             if (board.winCheck()) {
+                board.endGame();
                 return;
             }
             int move = board.move();
             board.write(playNum, move);
             board.print();
             try {
-                sleep(1000);
+                sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
